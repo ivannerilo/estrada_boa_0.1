@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Detalhes do Relatório{% endblock %}
+{% block main %}
+    <h1>Detalhes do Relatório</h1>
+    <ul>
+        <li><strong>Descrição:</strong> {{ report.description }}</li>
+        <li><strong>Tipo de Dano:</strong> {{ report.damage_type }}</li>
+        <li><strong>Data e Hora:</strong> {{ report.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</li>
+    </ul>
+    <div id="map" style="height: 400px; width: 100%;"></div>
+    <a href="{{ url_for('user_reports') }}">Voltar para a lista de relatórios</a>
+    
+    <!-- Botão para abrir o modal -->
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+        Deletar Relatório
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirmação de Exclusão</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Você tem certeza que deseja deletar este relatório?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <form method="POST" action="{{ url_for('delete_report', report_id=report.id) }}">
+                        {{ form.hidden_tag() }}
+                        <button type="submit" class="btn btn-danger">Deletar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulário para upload de arquivos -->
+    <h3>Anexar Mídias</h3>
+    <form action="{{ url_for('upload_files', report_id=report.id) }}" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="problem_media">Mídias do Problema na Via:</label>
+            <input type="file" class="form-control" id="problem_media" name="problem_media" multiple>
+        </div>
+        <div class="form-group">
+            <label for="damage_media">Mídias dos Danos:</label>
+            <input type="file" class="form-control" id="damage_media" name="damage_media" multiple>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar Mídias</button>
+    </form>
+
+    <!-- Exibir Mídias do Problema na Via -->
+    <h3>Mídias do Problema na Via</h3>
+    <ul>
+    {% for media in report.problem_media %}
+        <li>
+            {% if media.file_path.endswith('.mp4') or media.file_path.endswith('.avi') or media.file_path.endswith('.mov') %}
+                <video width="320" height="240" controls>
+                    <source src="{{ url_for('static', filename='uploads/' ~ media.file_path) }}" type="video/mp4">
+                    Seu navegador não suporta o elemento de vídeo.
+                </video>
+            {% else %}
+                <img src="{{ url_for('static', filename='uploads/' ~ media.file_path) }}" alt="Problema na via" width="320" height="240">
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+
+    <!-- Exibir Mídias dos Danos -->
+    <h3>Mídias dos Danos</h3>
+    <ul>
+    {% for media in report.damage_media %}
+        <li>
+            {% if media.file_path.endswith('.mp4') or media.file_path.endswith('.avi') or media.file_path.endswith('.mov') %}
+                <video width="320" height="240" controls>
+                    <source src="{{ url_for('static', filename='uploads/' ~ media.file_path) }}" type="video/mp4">
+                    Seu navegador não suporta o elemento de vídeo.
+                </video>
+            {% else %}
+                <img src="{{ url_for('static', filename='uploads/' ~ media.file_path) }}" alt="Danos" width="320" height="240">
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+
+    <script>
+        const apiKey = 'YOUR_API_KEY_HERE';
+
+        function initMap() {
+            const reportLocation = { lat: {{ report.latitude }}, lng: {{ report.longitude }} };
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: reportLocation
+            });
+            const marker = new google.maps.Marker({
+                position: reportLocation,
+                map: map        
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap" async defer></script>
+{% endblock %}

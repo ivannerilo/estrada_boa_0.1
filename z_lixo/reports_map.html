@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Report Map{% endblock %}
+{% block main %}
+    <script>
+        const apiKey = 'AIzaSyDVkOkMjhCcbVkbchAAYsN-_Tg12xDrfVA';
+        const reports = {{ reports | tojson }};
+        const icons = {
+            'Buraco': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+            'Recorte na via': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+            'Obstáculo': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+            'Acidente': 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+            'Desmoronamento': 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
+            'Animal morto': 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png'
+        };
+
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -23.55052, lng: -46.633308 },
+                zoom: 10
+            });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    map.setCenter(pos);
+                }, function() {
+                    handleLocationError(true, map.getCenter());
+                });
+            } else {
+                handleLocationError(false, map.getCenter());
+            }
+
+            reports.forEach(report => {
+                new google.maps.Marker({
+                    position: { lat: report.latitude, lng: report.longitude },
+                    map: map,
+                    icon: icons[report.description] || 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                    title: report.description
+                });
+            });
+        }
+
+        function loadScript(src) {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = src;
+            document.head.appendChild(script);
+        }
+
+        window.onload = () => {
+            loadScript(`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`);
+        };
+    </script>
+</head>
+<body>
+    <h1>Todos os Reports</h1>
+    <div id="map" style="height: 600px; width: 100%;"></div>
+</body>
+{% endblock %}
+

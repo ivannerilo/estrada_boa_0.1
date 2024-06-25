@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <div class="nav_div">
+            <ul class="nav_ul">
+                <li class="nav_li"><a href="{{ url_for('user_reports') }}">My reports</a></li>
+                <li class="nav_li"><a href="{{ url_for('report') }}">Map</a></li>
+                <li class="nav_li" style="float:right"><a class="active" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            </ul>
+        </div>
+    </header>
+    <main class="main-content">
+        {% block main %}{% endblock %}
+    </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

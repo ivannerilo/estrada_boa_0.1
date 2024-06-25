@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block main %}
+    <h1>Seus reports!</h1>
+    <p>Aqui você pode ver todos os seus reports!</p>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Descrição do Report</th>
+        </tr>
+        {% for report in reports %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+                <a href="{{ url_for('report_details', report_id=report.id) }}">
+                    {{ report.description }}
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

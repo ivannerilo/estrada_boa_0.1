@@ -1,0 +1,165 @@
+:root{
+    --background-color: #d5d5d5;
+    --navbar-color: #454545;
+    --text-color2: #3aa257;
+    --container-color: #9c9c9c;
+    --shadow-color: #5f5f5f;
+    --hipertext-color: #3aa257;
+    --btn-color: #3aa257;
+    --text-color: #000000;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+
+}
+
+main {
+    background-color: var(--background-color);
+}
+
+header {
+    flex-shrink: 0;
+    z-index: 1000;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px; /* Adjust this value if needed to avoid overlap with the navbar */
+}
+
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 60px); /* Adjust this value if needed to avoid overlap with the navbar */
+    padding-top: 60px; /* Adjust this value if needed to avoid overlap with the navbar */
+}
+
+footer {
+    flex-shrink: 0;
+    text-align: center;
+    padding: 10px;
+}
+
+.login-container, .register-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    background-color: var(--container-color);
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--shadow-color);
+}
+
+.report-container {
+    display: flex;
+    height: calc(100vh - 60px); /* Adjust height minus navbar height */
+    width: 100%;
+    overflow: hidden; /* Prevent internal scrolling */
+}
+
+#filter-container {
+    width: 20%;
+    padding: 20px;
+    border-right: 1px solid var(--background-color);
+    background-color: var(--background-color);
+    overflow-y: auto; /* Allow scrolling within the filter container if content overflows */
+}
+
+.filter_label {
+    color: var(--text-color2);
+}
+
+#map {
+    width: 80%;
+    height: 100%;
+}
+
+.form-control {
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: var(--text-color2);
+}
+
+.btn-primary {
+    width: 100%;
+    border-radius: 5px;
+    color: var(--btn-color);
+}
+
+.form-label {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.nav_ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--navbar-color);
+    display: flex;
+}
+
+.nav_li {
+    float: left;
+}
+
+.nav_li a {
+    display: block;
+    color: var(--text-color2);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border-right: 1px solid var(--navbar-color);
+}
+
+.nav_li a:hover {
+    background-color: var(--shadow-color);
+}
+
+.nav_div {
+    top: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid var(--navbar-color);
+    padding: 8px;
+    text-align: left;
+    color: var(--text-color2);
+}
+
+th {
+    background-color: var(--navbar-color);
+}
+
+p {
+    color: var(--text-color);
+}
+
+h1 {
+    color: var(--text-color);
+}
+
+.center{
+    text-align: center;
+    align-items: center;
+
+}
+
